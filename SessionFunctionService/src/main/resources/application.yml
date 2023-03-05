@@ -1,0 +1,15 @@
+
+server:
+  port: 8013
+
+spring:
+  application:
+    name: SessionFunctionService
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+#      defaultZone : http://EurekaDiscoveryService:8761/eureka
+      defaultZone : http://i8a703.p.ssafy.io:8761/eureka

@@ -1,0 +1,77 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    database: mysql
+  mail:
+    username: enter_your_noreply_email_address_here
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+    host: smtp.naver.com
+    password: enter_your_noreply_account_password_here
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: cossafyco
+    username: root
+    url: jdbc:mysql://mysql:3306/project1db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+  devtools:
+    livereload:
+      enabled: true
+  application:
+    name: memberService
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        boot: ERROR
+        security: DEBUG
+      apache:
+        tiles: INFO
+    root: INFO
+  file:
+    name: './member-BE.log '
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://EurekaDiscoveryService:8761/eureka
+server:
+  servlet:
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+  port: 8012
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
+build:
+  date: '@build.date@'
+springfox:
+  documentation:
+    swagger:
+      use-model-v3: false
+jwt:
+  secret: PorkCurtletFriedChickenSundubuJJigaeGrilledPorkBelly

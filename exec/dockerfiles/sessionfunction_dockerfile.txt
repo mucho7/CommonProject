@@ -1,0 +1,12 @@
+FROM openjdk:20-jdk-slim-buster
+
+# 디렉토리 생성 및 이동
+WORKDIR /home/user
+
+# jar파일 복제
+COPY sessionFunction-0.0.1-SNAPSHOT.jar /home/user
+
+VOLUME /app/data
+
+# jar파일 실행
+CMD java -jar /home/user/sessionFunction-0.0.1-SNAPSHOT.jar

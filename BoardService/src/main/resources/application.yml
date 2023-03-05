@@ -1,0 +1,34 @@
+server:
+  port: 8011
+
+spring:
+  application:
+    name: boardService
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql:3306/project1db?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: cossafyco
+  #    url: jdbc:mysql://i8a703.p.ssafy.io:3306/project1db?serverTimezone=UTC&characterEncoding=UTF-8
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://EurekaDiscoveryService:8761/eureka
+
+logging:
+  level:
+    com.function.board.client: DEBUG

@@ -1,0 +1,129 @@
+server:
+  port: 8000
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://EurekaDiscoveryService:8761/eureka
+#      defaultZone: http://i8a703.p.ssafy.io:8761/eureka
+
+jwt:
+  secret: PorkCurtletFriedChickenSundubuJJigaeGrilledPorkBelly
+
+
+spring:
+  application:
+    name: apigateway-service
+
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - 'http://i8a703.p.ssafy.io'
+              - 'http://i8a703.p.ssafy.io:443'
+              - 'http://localhost:3000'
+              - 'https://ssafy.cossafyco.kro.kr'
+            allow-credentials: true
+            allowedHeaders: '*'
+            exposed-headers: '*'
+            allowedMethods:
+              - PUT
+              - GET
+              - POST
+              - DELETE
+              - OPTIONS
+      routes:
+        - id: communityCreate
+          uri: http://BoardService:8011/
+          #          uri: http://localhost:8011/
+          predicates:
+            - Path=/board, /comment/**
+            - Method=POST
+          filters:
+            - AuthenticationHeaderFilter
+        - id: communityEdit
+          uri: http://BoardService:8011/
+          #          uri: http://localhost:8011/
+          predicates:
+            - Path=/board/**, /comment/**
+            - Method=PUT, DELETE
+          filters:
+            - AuthenticationHeaderFilter
+        - id: community
+          uri: http://BoardService:8011/
+          #          uri: http://localhost:8011/
+          predicates:
+            - Path=/board/**, /comment/**
+        - id: member
+          uri: http://MemberService:8012/
+          #          uri: http://localhost:8012/
+          predicates:
+            - Path=/member/changePassword, /member/delete/**, /member/logout, /member/extract
+            - Method=POST
+          filters:
+            - AuthenticationHeaderFilter
+        - id: member
+          uri: http://MemberService:8012/
+          #          uri: http://localhost:8012/
+          predicates:
+            - Path=/member/info/**
+          filters:
+            - AuthenticationHeaderFilter
+        - id: member
+          uri: http://MemberService:8012/
+          #          uri: http://localhost:8012/
+          predicates:
+            - Path=/member/**
+        - id: uniqueCheck
+          uri: http://MemberService:8012/
+          #          uri: http://localhost:8012/
+          predicates:
+            - Path=/check/**
+        - id: validateRequest
+          uri: http://MemberService:8012/
+          #          uri: http://localhost:8012/
+          predicates:
+            - Path=/validate
+            - Method=POST
+        - id: function
+          uri: http://SessionFunctionService:8013/
+          #          uri: http://localhost:8013/
+          predicates:
+            - Path=/function/**
+        - id: session
+          uri: https://ssafy.cossafyco.kro.kr/session/
+          #          uri: https://localhost:8443/
+          predicates:
+            - Path=/session/**
+        - id: file
+          uri: http://FileService:8019/
+          predicates:
+            - Path=/file/**
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://mysql:3306/project1db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    #    url: jdbc:mysql://i8a703.p.ssafy.io:3306/project1db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    password: cossafyco
+  jpa:
+    generate-ddl: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        globally_quoted_identifiers: true
+    database: mysql
+    hibernate:
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      ddl-auto: update
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
